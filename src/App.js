@@ -10,6 +10,7 @@ import {
   Label,
 } from "recharts";
 import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
   const [inputs, setInputs] = useState({ delta: null, s_rate: null });
@@ -71,8 +72,8 @@ function App() {
             type="number"
             domain={[
               0,
-              // (dataMax) => Math.ceil(dataMax) + Math.ceil(dataMax) * 0.1,
-              5,
+              (dataMax) => Math.ceil(dataMax) + Math.ceil(dataMax) * 0.1,
+              // 5,
             ]}
           />
           <Tooltip />
@@ -116,20 +117,26 @@ function App() {
       <form method="post" onSubmit={handleSubmit}>
         <label for="delta-input">&delta; (Depreciation Rate): </label>
         <input
-          type="text"
           id="delta-input"
           name="delta"
           defaultValue={0.1}
           placeholder="delta"
+          type="number"
+          step="0.01"
+          min="0"
+          max="1"
         />
         <br />
         <label for="savings-rate-input">s (Savings Rate): </label>
         <input
-          type="text"
           id="savings-rate-input"
           name="s_rate"
           defaultValue={0.1}
           placeholder="savings rate"
+          type="number"
+          step="0.01"
+          min="0"
+          max="1"
         />
         <br />
         <button type="submit">Graph</button>
