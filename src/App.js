@@ -13,25 +13,26 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const [inputs, setInputs] = useState({ delta: null, s_rate: null });
+  // const [inputs, setInputs] = useState({ delta: null, s_rate: null });
+  const [delta, setDelta] = useState(0.1);
+  const [savings, setSavings] = useState(0.1);
   const [model, setModel] = useState(null);
 
   useEffect(() => {
-    if (inputs.delta && inputs.s_rate) {
-      console.log(inputs);
+    if (delta && savings) {
       const p = new SolowModel(
         1,
         1 / 3,
         10,
         100,
-        Number(inputs.delta),
-        Number(inputs.s_rate)
+        Number(delta),
+        Number(savings)
       );
       p.nextPoint(50);
       console.log(p);
       setModel(p);
     }
-  }, [inputs]);
+  }, [delta, savings]);
 
   function handleSubmit(e) {
     // Prevent the browser from reloading the page
@@ -42,7 +43,8 @@ function App() {
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
     // console.log(formJson);
-    setInputs(formJson);
+    setDelta(formJson.delta);
+    setSavings(formJson.s_rate);
   }
 
   // tfp, alpha, k_zero, labor, delta, savings
@@ -119,24 +121,28 @@ function App() {
         <input
           id="delta-input"
           name="delta"
-          defaultValue={0.1}
+          // defaultValue={0.1}
           placeholder="delta"
           type="number"
           step="0.01"
           min="0"
           max="1"
+          onChange={(e) => setDelta(e.target.value)}
+          value={delta}
         />
         <br />
         <label for="savings-rate-input">s (Savings Rate): </label>
         <input
           id="savings-rate-input"
           name="s_rate"
-          defaultValue={0.1}
+          // defaultValue={0.1}
           placeholder="savings rate"
           type="number"
           step="0.01"
           min="0"
           max="1"
+          onChange={(e) => setSavings(e.target.value)}
+          value={savings}
         />
         <br />
         <button type="submit">Graph</button>
